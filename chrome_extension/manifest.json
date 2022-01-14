@@ -1,0 +1,15 @@
+{
+  "manifest_version": 2,
+  "name": "unboring.sg",
+  "version": "1.0.0",
+  "description": "Discover unboring things to eat, do, and learn in Singapore.",
+  "author": "Open Government Products, GovTech Singapore (https://open.gov.sg)",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "permissions": ["storage", "https://unboring-sg.vercel.app/"],
+  "icons": {
+    "16": "images/UnboringSG.png",
+    "128": "images/UnboringSG.png"
+  }
+}

@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>unboring.sg Chrome Extension</title>
+    <meta
+      name="description"
+      content="Chrome extension that shows you new things to eat, do, and learn anytime you open a new tab."
+    />
+    <style type="text/css">
+      body,
+      html {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      #content {
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        top: 0px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="content">
+      <iframe
+        width="100%"
+        height="100%"
+        frameborder="0"
+        src="https://unboring-sg.vercel.app/"
+      ></iframe>
+    </div>
+  </body>
+</html>
