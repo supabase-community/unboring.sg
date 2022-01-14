@@ -1,0 +1,23 @@
+{
+  "name": "unboring.sg",
+  "version": "1.0.0",
+  "description": "A website and browser extensions to discover things to eat, do, and learn.",
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna bootstrap --no-ci",
+    "dev": "cd website && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorwebdev/unboring.sg.git"
+  },
+  "author": "thorwebdev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thorwebdev/unboring.sg/issues"
+  },
+  "homepage": "https://github.com/thorwebdev/unboring.sg#readme",
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  }
+}

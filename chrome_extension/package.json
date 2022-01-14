@@ -1,0 +1,19 @@
+{
+  "name": "unboring.sg-chrome_extension",
+  "version": "1.0.0",
+  "description": "Chrome extension that shows you new things to eat, do, and learn anytime you open a new tab.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/thorwebdev/unboring.sg.git#main"
+  },
+  "author": "thorwebdev",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/thorwebdev/unboring.sg/issues"
+  },
+  "homepage": "https://github.com/thorwebdev/unboring.sg/tree/main/chrome_extension#readme"
+}
