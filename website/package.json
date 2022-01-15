@@ -4,7 +4,8 @@
   "scripts": {
     "dev": "next",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "generate-types": "npx openapi-typescript https://cuotvtpdaarnrykolibe.supabase.co/rest/v1/?apikey=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNjQyMjAyNDAxLCJleHAiOjE5NTc3Nzg0MDF9.eVNMjTw3AnGuDjcSzWJk1SNH5BZzJwMUB8NHc_AbgnY --output types/supabase.ts"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.7.4",
