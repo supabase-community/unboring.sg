@@ -19,5 +19,27 @@ create table recommendations (
   clicks bigint default 0,
   downvotes bigint default 0,
   expiration_date timestamp with time zone,
-  approved boolean
+  approved boolean default false
 )
+
+/**
+* INCREMENT HELPER FUNCTIONS
+* We increment clicks or downvotes via an RPC to this function.
+*/
+create function increment_clicks (rec_id int) 
+returns void as
+$$
+  update recommendations 
+  set clicks = clicks + 1 -- increments is done here
+  where id = rec_id
+$$ 
+language sql volatile;
+
+create function increment_downvotes (rec_id int) 
+returns void as
+$$
+  update recommendations 
+  set downvotes = downvotes + 1 -- increments is done here
+  where id = rec_id
+$$ 
+language sql volatile;

@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
-import { Box, Image, Heading, Stack } from "@chakra-ui/react";
-import { getRecommendations } from "../../utils/supabase";
+import { Flex, Box, Image, Heading, Stack, Spacer } from "@chakra-ui/react";
+import { RepeatIcon } from "@chakra-ui/icons";
+import { Link } from "@opengovsg/design-system-react";
+import { getRecommendations, supabaseClient } from "../../utils/supabase";
 import { definitions } from "../../types/supabase";
 
 export const Tile = ({ title }: { title: string }) => {
@@ -8,6 +10,7 @@ export const Tile = ({ title }: { title: string }) => {
   const [currentRec, setCurrentRec] = useState<
     definitions["recommendations"] | null
   >(null);
+  // TODO: save recs to localstorage and only run query when recs in localstorage are empty.
   useEffect(() => {
     const runAsync = async () => {
       const recommendations = await getRecommendations(title.toLowerCase());
@@ -18,18 +21,52 @@ export const Tile = ({ title }: { title: string }) => {
     runAsync();
   }, []);
 
-  return (
-    currentRec && (
-      <Stack>
+  const handleLinkClick = async () => {
+    // Increment clicks in DB
+    const { error } = await supabaseClient.rpc("increment_clicks", {
+      rec_id: currentRec.id,
+    });
+    if (error) console.log(error);
+    // Remove & replace currentRec with new one
+    // If last item in array -> load more recs into local storage
+  };
+
+  return currentRec ? (
+    <Stack>
+      <Flex>
         <Heading color="#276EF1" as="h1" size="4xl" isTruncated>
           {title}
         </Heading>
-        <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Spacer />
+        <Heading
+          paddingRight={4}
+          color="#276EF1"
+          as="h1"
+          size="3xl"
+          isTruncated
+        >
+          <RepeatIcon />
+        </Heading>
+      </Flex>
+      <Link
+        style={{ textDecoration: "none" }}
+        href={currentRec.url}
+        onClick={handleLinkClick}
+        isExternal
+      >
+        <Box
+          maxH="sm"
+          maxW="sm"
+          borderWidth="1px"
+          borderRadius="lg"
+          overflow="hidden"
+        >
           <Image src={currentRec.image_url} alt={currentRec.title} />
 
-          <Box p="6">
+          <Box p="4">
             <Box
               mt="1"
+              mb="1"
               fontWeight="semibold"
               as="h4"
               lineHeight="tight"
@@ -41,7 +78,9 @@ export const Tile = ({ title }: { title: string }) => {
             <Box>{currentRec.description}</Box>
           </Box>
         </Box>
-      </Stack>
-    )
+      </Link>
+    </Stack>
+  ) : (
+    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden"></Box>
   );
 };

@@ -13,7 +13,10 @@ export const getRecommendations = async (
     .from<definitions["recommendations"]>("recommendations")
     .select("*")
     .eq("approved", true)
-    .eq("category", category);
+    .eq("category", category)
+    .or(
+      `expiration_date.is.null,expiration_date.gt.${new Date().toISOString()}`
+    );
 
   if (error) {
     console.log(error.message);
