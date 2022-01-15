@@ -12,6 +12,7 @@
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
     "@opengovsg/design-system-react": "^0.0.1",
+    "@supabase/supabase-js": "^1.29.1",
     "framer-motion": "^4.0.3",
     "next": "latest",
     "react": "^17.0.2",
