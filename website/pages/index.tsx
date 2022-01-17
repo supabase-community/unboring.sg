@@ -1,11 +1,12 @@
-import { SimpleGrid, Image, Box } from "@chakra-ui/react";
+import { SimpleGrid, Image, useColorMode } from "@chakra-ui/react";
 
 import { Screen } from "../components/Screen";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
-import { Footer } from "../components/Footer";
 import { Tile } from "../components/Tile";
 
 const Index = () => {
+  const { colorMode } = useColorMode();
+
   return (
     <Screen minH="100vh" p={5}>
       <DarkModeSwitch />
@@ -21,6 +22,14 @@ const Index = () => {
         <Tile title={"DO"} />
         <Tile title={"LEARN"} />
       </SimpleGrid>
+      <Image
+        htmlWidth="150px"
+        position="fixed"
+        bottom="1rem"
+        right="1rem"
+        src={`ogp_logo_${colorMode}.svg`}
+        alt="OGP Logo"
+      />
     </Screen>
   );
 };

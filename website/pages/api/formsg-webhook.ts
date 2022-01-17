@@ -6,6 +6,7 @@ const formsg = require("@opengovsg/formsg-sdk")({
 const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     try {
+      console.log(req.headers["X-FormSG-Signature"]);
       // Endpoint authentication by verifying signatures
       formsg.webhooks.authenticate(
         req.headers["X-FormSG-Signature"],
@@ -30,6 +31,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
         console.log("Could not decrypt the submission");
       }
     } catch (e) {
+      console.log("Unauthorized");
       return res.status(401).end("Unauthorized");
     }
 
