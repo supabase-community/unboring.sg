@@ -4,6 +4,7 @@ import { RepeatIcon } from "@chakra-ui/icons";
 import { Link } from "@opengovsg/design-system-react";
 import { getRecommendations, supabaseClient } from "../../utils/supabase";
 import { definitions } from "../../types/supabase";
+import { ThumbDownIcon } from "./ThumbDownIcon";
 
 export const Tile = ({ title }: { title: string }) => {
   const [recs, setRecs] = useState<definitions["recommendations"][]>([]);
@@ -31,6 +32,16 @@ export const Tile = ({ title }: { title: string }) => {
     // If last item in array -> load more recs into local storage
   };
 
+  const handleDownVote = async () => {
+    // Increment clicks in DB
+    const { error } = await supabaseClient.rpc("increment_downvotes", {
+      rec_id: currentRec.id,
+    });
+    if (error) console.log(error);
+    // Remove & replace currentRec with new one
+    // If last item in array -> load more recs into local storage
+  };
+
   return currentRec ? (
     <Stack>
       <Flex>
@@ -38,15 +49,20 @@ export const Tile = ({ title }: { title: string }) => {
           {title}
         </Heading>
         <Spacer />
-        <Heading
-          paddingRight={4}
-          color="#276EF1"
-          as="h1"
-          size="3xl"
-          isTruncated
-        >
-          <RepeatIcon />
-        </Heading>
+        <Flex>
+          <Heading
+            paddingRight={4}
+            color="#276EF1"
+            size="3xl"
+            onClick={handleDownVote}
+          >
+            <ThumbDownIcon color="#276EF1" />
+          </Heading>
+          <Spacer />
+          <Heading paddingRight={4} color="#276EF1" size="3xl">
+            <RepeatIcon />
+          </Heading>
+        </Flex>
       </Flex>
       <Link
         style={{ textDecoration: "none" }}
