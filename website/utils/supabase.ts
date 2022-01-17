@@ -7,16 +7,20 @@ export const supabaseClient = createClient(
 );
 
 export const getRecommendations = async (
-  category: string
+  category: string,
+  lastSeenId?: number
 ): Promise<definitions["recommendations"][]> => {
   const { data, error } = await supabaseClient
     .from<definitions["recommendations"]>("recommendations")
     .select("*")
     .eq("approved", true)
     .eq("category", category)
+    .gt("id", lastSeenId || 0)
     .or(
       `expiration_date.is.null,expiration_date.gt.${new Date().toISOString()}`
-    );
+    )
+    .limit(10)
+    .order("id", { ascending: true });
 
   if (error) {
     console.log(error.message);

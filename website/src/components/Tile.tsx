@@ -17,8 +17,15 @@ export const Tile = ({ title }: { title: string }) => {
   >(null);
 
   const recsLoader = async () => {
-    const recommendations = await getRecommendations(title.toLowerCase());
-    setCurrentRec(recommendations.pop());
+    const recommendations = await getRecommendations(
+      title.toLowerCase(),
+      currentRec
+        ? currentRec.id
+        : Number(
+            window.localStorage.getItem(`unboringRecs-lastSeenId-${title}`)
+          )
+    );
+    setCurrentRec(recommendations.shift());
     setRecs(recommendations);
     localStorageParser.setItem(`unboringRecs-${title}`, recommendations);
   };
@@ -26,14 +33,14 @@ export const Tile = ({ title }: { title: string }) => {
   useEffect(() => {
     const recommendations = localStorageParser.getItem(`unboringRecs-${title}`);
     if (recommendations.length) {
-      setCurrentRec(recommendations.pop());
+      setCurrentRec(recommendations.shift());
       setRecs(recommendations);
       localStorageParser.setItem(`unboringRecs-${title}`, recommendations);
     } else recsLoader();
   }, []);
 
   const handleClick = async (
-    event: "increment_clicks" | "increment_downvotes" | null
+    event?: "increment_clicks" | "increment_downvotes"
   ) => {
     if (event) {
       // Increment in DB
@@ -45,7 +52,7 @@ export const Tile = ({ title }: { title: string }) => {
     // Remove & replace currentRec with new one
     if (recs.length) {
       const recommendations = [...recs];
-      setCurrentRec(recommendations.pop());
+      setCurrentRec(recommendations.shift());
       setRecs(recommendations);
       localStorageParser.setItem(`unboringRecs-${title}`, recommendations);
     }
@@ -53,7 +60,14 @@ export const Tile = ({ title }: { title: string }) => {
     else recsLoader();
   };
 
-  return currentRec ? (
+  return (() => {
+    if (currentRec)
+      window.localStorage.setItem(
+        `unboringRecs-lastSeenId-${title}`,
+        currentRec.id.toString()
+      );
+    return currentRec;
+  })() ? (
     <Stack>
       <Flex>
         <Heading color="#276EF1" as="h1" size="4xl" isTruncated>
@@ -74,7 +88,7 @@ export const Tile = ({ title }: { title: string }) => {
             paddingRight={4}
             color="#276EF1"
             size="3xl"
-            onClick={() => handleClick(null)}
+            onClick={() => handleClick()}
           >
             <RepeatIcon />
           </Heading>
@@ -113,6 +127,13 @@ export const Tile = ({ title }: { title: string }) => {
       </Link>
     </Stack>
   ) : (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden"></Box>
+    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+      <Heading color="#276EF1" as="h1" size="4xl" isTruncated>
+        {title}
+      </Heading>
+      <Heading color="#276EF1" as="h1" size="2xl" mt={5}>
+        CHECK BACK LATER
+      </Heading>
+    </Box>
   );
 };
