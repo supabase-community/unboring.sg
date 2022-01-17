@@ -21,6 +21,7 @@ export const getRecommendations = async (
     )
     .limit(10)
     .order("id", { ascending: true });
+  // TODO: filter by created in last 7 days?
 
   if (error) {
     console.log(error.message);
