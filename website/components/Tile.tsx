@@ -127,13 +127,15 @@ export const Tile = ({ title }: { title: string }) => {
       </Link>
     </Stack>
   ) : (
-    <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+    <Stack>
       <Heading color="#276EF1" as="h1" size="4xl" isTruncated>
         {title}
       </Heading>
-      <Heading color="#276EF1" as="h1" size="2xl" mt={5}>
-        CHECK BACK LATER
-      </Heading>
-    </Box>
+      <Box maxW="sm" borderWidth="1px" borderRadius="lg" overflow="hidden">
+        <Heading color="#276EF1" as="h1" size="2xl" mt={5}>
+          CHECK BACK LATER
+        </Heading>
+      </Box>
+    </Stack>
   );
 };

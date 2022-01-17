@@ -14,7 +14,7 @@
     "@emotion/react": "11.1.5",
     "@emotion/styled": "11.1.5",
     "@opengovsg/design-system-react": "^0.0.1",
-    "@opengovsg/formsg-sdk": "^0.9.0",
+    "@opengovsg/formsg-sdk": "0.9.0",
     "@supabase/supabase-js": "^1.29.1",
     "framer-motion": "^4.0.3",
     "next": "latest",

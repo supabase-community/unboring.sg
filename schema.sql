@@ -21,6 +21,11 @@ create table recommendations (
   expiration_date timestamp with time zone,
   approved boolean default false
 )
+/**
+* Enable Row Level Security
+*/
+alter table recommendations enable row level security;
+CREATE POLICY "Enable public read access" ON public.recommendations FOR SELECT USING (true);
 
 /**
 * INCREMENT HELPER FUNCTIONS
