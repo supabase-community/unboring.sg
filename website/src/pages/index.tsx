@@ -7,15 +7,13 @@ import { Tile } from "../components/Tile";
 
 const Index = () => {
   return (
-    <Screen height="100vh">
+    <Screen minH="100vh" p={5}>
       <DarkModeSwitch />
-      <Container maxW="100%" centerContent>
-        <SimpleGrid columns={3} spacing={5}>
-          <Tile title={"EAT"} />
-          <Tile title={"DO"} />
-          <Tile title={"LEARN"} />
-        </SimpleGrid>
-      </Container>
+      <SimpleGrid maxW="100%" minChildWidth="350px" spacing={5}>
+        <Tile title={"EAT"} />
+        <Tile title={"DO"} />
+        <Tile title={"LEARN"} />
+      </SimpleGrid>
     </Screen>
   );
 };
