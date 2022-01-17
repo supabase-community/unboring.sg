@@ -1,4 +1,4 @@
-import { Text, SimpleGrid, Box, Container } from "@chakra-ui/react";
+import { SimpleGrid, Image, Box } from "@chakra-ui/react";
 
 import { Screen } from "../components/Screen";
 import { DarkModeSwitch } from "../components/DarkModeSwitch";
@@ -9,6 +9,9 @@ const Index = () => {
   return (
     <Screen minH="100vh" p={5}>
       <DarkModeSwitch />
+      <Box boxSize="sm" position="fixed" top="0">
+        <Image src="UnboringSG.png" alt="UnboringSG logo" />
+      </Box>
       <SimpleGrid maxW="100%" minChildWidth="350px" spacing={5}>
         <Tile title={"EAT"} />
         <Tile title={"DO"} />
