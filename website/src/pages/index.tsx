@@ -9,9 +9,13 @@ const Index = () => {
   return (
     <Screen minH="100vh" p={5}>
       <DarkModeSwitch />
-      <Box boxSize="sm" position="fixed" top="0">
-        <Image src="UnboringSG.png" alt="UnboringSG logo" />
-      </Box>
+      <Image
+        htmlWidth="20%"
+        position="fixed"
+        top="0"
+        src="UnboringSG.png"
+        alt="UnboringSG logo"
+      />
       <SimpleGrid maxW="100%" minChildWidth="350px" spacing={5}>
         <Tile title={"EAT"} />
         <Tile title={"DO"} />
