@@ -25,3 +25,12 @@ export const getRecommendations = async (
 
   return data || [];
 };
+
+export const localStorageParser = {
+  setItem: (key: string, data: definitions["recommendations"][]): void => {
+    window.localStorage.setItem(key, JSON.stringify(data));
+  },
+  getItem: (key: string): definitions["recommendations"][] => {
+    return JSON.parse(window.localStorage.getItem(key) || "[]");
+  },
+};
