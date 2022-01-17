@@ -6,11 +6,11 @@ const formsg = require("@opengovsg/formsg-sdk")({
 const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     try {
-      console.log(JSON.stringify(req.headers, null, 2));
-      console.log(JSON.stringify(req.rawHeaders, null, 2));
+      console.log("req.headers", JSON.stringify(req.headers, null, 2));
+      console.log("req.rawHeaders", JSON.stringify(req.rawHeaders, null, 2));
       // Endpoint authentication by verifying signatures
       formsg.webhooks.authenticate(
-        req.headers["X-FormSG-Signature"],
+        req.headers["x-formsg-signature"],
         process.env.FORMSG_WEBHOOK_POST_URI
       );
       // Continue processing the POST body
