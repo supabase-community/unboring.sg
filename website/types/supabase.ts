@@ -138,6 +138,46 @@ export interface paths {
       };
     };
   };
+  "/rpc/increment_downvotes": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: integer */
+            rec_id: number;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
+  "/rpc/increment_clicks": {
+    post: {
+      parameters: {
+        body: {
+          args: {
+            /** Format: integer */
+            rec_id: number;
+          };
+        };
+        header: {
+          /** Preference */
+          Prefer?: parameters["preferParams"];
+        };
+      };
+      responses: {
+        /** OK */
+        200: unknown;
+      };
+    };
+  };
 }
 
 export interface definitions {
