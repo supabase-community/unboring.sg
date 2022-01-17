@@ -6,8 +6,8 @@ import {
   getRecommendations,
   localStorageParser,
   supabaseClient,
-} from "../../utils/supabase";
-import { definitions } from "../../types/supabase";
+} from "../utils/supabase";
+import { definitions } from "../types/supabase";
 import { ThumbDownIcon } from "./ThumbDownIcon";
 
 export const Tile = ({ title }: { title: string }) => {
