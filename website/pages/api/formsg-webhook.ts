@@ -35,13 +35,12 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (submission) {
         // Continue processing the submission
         const res = submission.content.responses;
-        const url = res.find((i) => i.question === "URL").answer;
+        const submittedUrl = res.find((i) => i.question === "URL").answer;
 
         // Try to scrape og:image
-        let image_url = "https://via.placeholder.com/400x300";
-        const { body: html, url: returnedUrl } = await got(url);
-        const metadata = await metascraper({ html, returnedUrl });
-        if (metadata?.image) image_url = metadata.image;
+        const { body: html, url } = await got(submittedUrl);
+        const metadata = await metascraper({ html, url });
+        console.log({ metadata });
 
         // Write record to Supabase database.
         const { error } = await supabaseAdmin
@@ -50,8 +49,8 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
             {
               title: res.find((i) => i.question === "Title").answer,
               description: res.find((i) => i.question === "Description").answer,
-              url,
-              image_url,
+              url: submittedUrl,
+              image_url: metadata?.image ?? "https://via.placeholder.com/400x1",
               category: res
                 .find((i) => i.question === "Category")
                 .answer.split(" ")[0]
