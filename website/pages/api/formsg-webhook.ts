@@ -37,13 +37,13 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // Try to scrape og:image
         let image_url = "https://via.placeholder.com/400x300";
-        const ogsData = await ogs({ url });
-        console.log(JSON.stringify(ogsData, null, 2));
-        const { error: ogError, result } = ogsData;
-        if (ogError) console.log(ogError);
-        if (result.success) {
-          image_url = result.ogImage.url;
-        }
+        // const ogsData = await ogs({ url });
+        // console.log(JSON.stringify(ogsData, null, 2));
+        // const { error: ogError, result } = ogsData;
+        // if (ogError) console.log(ogError);
+        // if (result.success) {
+        //   image_url = result.ogImage.url;
+        // }
 
         // Write record to Supabase database.
         const { error } = await supabaseAdmin
