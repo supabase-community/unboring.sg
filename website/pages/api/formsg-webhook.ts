@@ -1,9 +1,14 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { createClient } from "@supabase/supabase-js";
 import { definitions } from "../../types/supabase";
-import { supabaseAdmin } from "../../utils/supabase";
 const formsg = require("@opengovsg/formsg-sdk")({
   mode: "production",
 });
+
+const supabaseAdmin = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL || "",
+  process.env.SUPABASE_SERVICE_ROLE_KEY || ""
+);
 
 const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
