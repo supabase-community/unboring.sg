@@ -107,7 +107,11 @@ export const Tile = ({ title }: { title: string }) => {
           borderRadius="lg"
           overflow="hidden"
         >
-          <Image src={currentRec.image_url} alt={currentRec.title} />
+          <Image
+            src={currentRec.image_url}
+            alt={currentRec.title}
+            fallbackSrc="https://via.placeholder.com/400x300"
+          />
 
           <Box p="4">
             <Box

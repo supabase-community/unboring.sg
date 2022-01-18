@@ -4,7 +4,9 @@ import { definitions } from "../../types/supabase";
 const formsg = require("@opengovsg/formsg-sdk")({
   mode: "production",
 });
-const ogs = require("open-graph-scraper");
+
+const metascraper = require("metascraper")([require("metascraper-image")()]);
+const got = require("got");
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -37,13 +39,9 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
         // Try to scrape og:image
         let image_url = "https://via.placeholder.com/400x300";
-        // const ogsData = await ogs({ url });
-        // console.log(JSON.stringify(ogsData, null, 2));
-        // const { error: ogError, result } = ogsData;
-        // if (ogError) console.log(ogError);
-        // if (result.success) {
-        //   image_url = result.ogImage.url;
-        // }
+        const { body: html, url: returnedUrl } = await got(url);
+        const metadata = await metascraper({ html, returnedUrl });
+        if (metadata?.image) image_url = metadata.image;
 
         // Write record to Supabase database.
         const { error } = await supabaseAdmin
