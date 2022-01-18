@@ -4,6 +4,7 @@ import { definitions } from "../../types/supabase";
 const formsg = require("@opengovsg/formsg-sdk")({
   mode: "production",
 });
+const ogs = require("open-graph-scraper");
 
 const supabaseAdmin = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL || "",
@@ -13,8 +14,6 @@ const supabaseAdmin = createClient(
 const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
   if (req.method === "POST") {
     try {
-      console.log("req.headers", JSON.stringify(req.headers, null, 2));
-      console.log("req.rawHeaders", JSON.stringify(req.rawHeaders, null, 2));
       // Endpoint authentication by verifying signatures
       formsg.webhooks.authenticate(
         req.headers["x-formsg-signature"],
@@ -33,17 +32,28 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       // If the decryption failed, submission will be `null`.
       if (submission) {
         // Continue processing the submission
-        console.log("submission", JSON.stringify(submission, null, 2));
-        // Insert record into Supabase
         const res = submission.content.responses;
+        const url = res.find((i) => i.question === "URL").answer;
+
+        // Try to scrape og:image
+        let image_url = "https://via.placeholder.com/400x300";
+        const ogsData = await ogs({ url });
+        console.log(JSON.stringify(ogsData, null, 2));
+        const { error: ogError, result } = ogsData;
+        if (ogError) console.log(ogError);
+        if (result.success) {
+          image_url = result.ogImage.url;
+        }
+
+        // Write record to Supabase database.
         const { error } = await supabaseAdmin
           .from<definitions["recommendations"]>("recommendations")
           .insert([
             {
               title: res.find((i) => i.question === "Title").answer,
               description: res.find((i) => i.question === "Description").answer,
-              url: res.find((i) => i.question === "URL").answer,
-              image_url: "https://via.placeholder.com/400x300", // TODO extract og:image
+              url,
+              image_url,
               category: res
                 .find((i) => i.question === "Category")
                 .answer.split(" ")[0]
