@@ -30,6 +30,7 @@ export interface paths {
           downvotes?: parameters["rowFilter.recommendations.downvotes"];
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
+          channel?: parameters["rowFilter.recommendations.channel"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -94,6 +95,7 @@ export interface paths {
           downvotes?: parameters["rowFilter.recommendations.downvotes"];
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
+          channel?: parameters["rowFilter.recommendations.channel"];
         };
         header: {
           /** Preference */
@@ -122,6 +124,7 @@ export interface paths {
           downvotes?: parameters["rowFilter.recommendations.downvotes"];
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
+          channel?: parameters["rowFilter.recommendations.channel"];
         };
         body: {
           /** recommendations */
@@ -190,7 +193,7 @@ export interface definitions {
     id: number;
     /**
      * Format: timestamp with time zone
-     * @default timezone('utc'::text, now())
+     * @default (now() AT TIME ZONE 'utc'::text)
      */
     created_at: string;
     /** Format: text */
@@ -223,6 +226,8 @@ export interface definitions {
     expiration_date?: string;
     /** Format: boolean */
     approved?: boolean;
+    /** Format: text */
+    channel?: string;
   };
 }
 
@@ -289,6 +294,8 @@ export interface parameters {
   "rowFilter.recommendations.expiration_date": string;
   /** Format: boolean */
   "rowFilter.recommendations.approved": string;
+  /** Format: text */
+  "rowFilter.recommendations.channel": string;
 }
 
 export interface operations {}

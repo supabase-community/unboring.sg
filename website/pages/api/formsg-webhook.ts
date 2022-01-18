@@ -1,4 +1,6 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { definitions } from "../../types/supabase";
+import { supabaseAdmin } from "../../utils/supabase";
 const formsg = require("@opengovsg/formsg-sdk")({
   mode: "production",
 });
@@ -27,6 +29,24 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       if (submission) {
         // Continue processing the submission
         console.log("submissions", JSON.stringify(submission, null, 2));
+        // Insert record into Supabase
+        const res = submission.responses;
+        const { error } = await supabaseAdmin
+          .from<definitions["recommendations"]>("recommendations")
+          .insert([
+            {
+              title: res.find((i) => i.question === "Title").answer,
+              description: res.find((i) => i.question === "Description").answer,
+              url: res.find((i) => i.question === "URL").answer,
+              image_url: "https://via.placeholder.com/400x300", // TODO extract og:image
+              category: res.find((i) => i.question === "URL").answer,
+              channel: "formsg",
+            },
+          ]);
+        if (error) {
+          console.log("DB error", error);
+          throw error;
+        }
       } else {
         // Could not decrypt the submission
         console.log("Could not decrypt the submission");
