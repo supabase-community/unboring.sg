@@ -28,9 +28,9 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       // If the decryption failed, submission will be `null`.
       if (submission) {
         // Continue processing the submission
-        console.log("submissions", JSON.stringify(submission, null, 2));
+        console.log("submission", JSON.stringify(submission, null, 2));
         // Insert record into Supabase
-        const res = submission.responses;
+        const res = submission.content.responses;
         const { error } = await supabaseAdmin
           .from<definitions["recommendations"]>("recommendations")
           .insert([
@@ -42,7 +42,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               category: res
                 .find((i) => i.question === "Category")
                 .answer.split(" ")[0]
-                .toUpperCase(),
+                .toLowerCase(),
               channel: "formsg",
             },
           ]);
