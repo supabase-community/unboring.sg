@@ -39,7 +39,10 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
               description: res.find((i) => i.question === "Description").answer,
               url: res.find((i) => i.question === "URL").answer,
               image_url: "https://via.placeholder.com/400x300", // TODO extract og:image
-              category: res.find((i) => i.question === "URL").answer,
+              category: res
+                .find((i) => i.question === "Category")
+                .answer.split(" ")[0]
+                .toUpperCase(),
               channel: "formsg",
             },
           ]);
