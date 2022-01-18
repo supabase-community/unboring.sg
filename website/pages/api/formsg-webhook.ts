@@ -26,7 +26,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
       // If the decryption failed, submission will be `null`.
       if (submission) {
         // Continue processing the submission
-        console.log(JSON.stringify(submission, null, 2));
+        console.log("submissions", JSON.stringify(submission, null, 2));
       } else {
         // Could not decrypt the submission
         console.log("Could not decrypt the submission");
