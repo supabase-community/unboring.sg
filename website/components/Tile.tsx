@@ -110,7 +110,7 @@ export const Tile = ({ title }: { title: string }) => {
           <Image
             src={currentRec.image_url}
             alt={currentRec.title}
-            fallbackSrc="https://via.placeholder.com/400x300"
+            fallbackSrc="https://via.placeholder.com/400x1"
           />
 
           <Box p="4">
