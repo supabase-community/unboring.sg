@@ -10,9 +10,9 @@ create table recommendations (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   title text not null,
   description text not null,
-  url text not null,
+  url text not null unique,
   image_url text not null,
-  category recommendation_category not null,
+  category recommendation_category,
   location geography(point), -- insert into recommendations (location) values ('SRID=4326;POINT(longitude latitude)');
   source text,
   cost cost_type,

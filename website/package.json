@@ -18,7 +18,13 @@
     "@supabase/supabase-js": "^1.29.1",
     "framer-motion": "^4.0.3",
     "metascraper": "^5.25.7",
+    "metascraper-author": "^5.25.7",
+    "metascraper-date": "^5.25.7",
+    "metascraper-description": "^5.25.7",
     "metascraper-image": "^5.25.7",
+    "metascraper-logo": "^5.25.7",
+    "metascraper-publisher": "^5.25.7",
+    "metascraper-title": "^5.25.7",
     "next": "latest",
     "react": "^17.0.2",
     "react-dom": "^17.0.2"
