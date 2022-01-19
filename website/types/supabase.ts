@@ -31,6 +31,7 @@ export interface paths {
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
           channel?: parameters["rowFilter.recommendations.channel"];
+          metascraper?: parameters["rowFilter.recommendations.metascraper"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -96,6 +97,7 @@ export interface paths {
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
           channel?: parameters["rowFilter.recommendations.channel"];
+          metascraper?: parameters["rowFilter.recommendations.metascraper"];
         };
         header: {
           /** Preference */
@@ -125,6 +127,7 @@ export interface paths {
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
           channel?: parameters["rowFilter.recommendations.channel"];
+          metascraper?: parameters["rowFilter.recommendations.metascraper"];
         };
         body: {
           /** recommendations */
@@ -208,7 +211,7 @@ export interface definitions {
      * Format: public.recommendation_category
      * @enum {string}
      */
-    category: "eat" | "do" | "learn";
+    category?: "eat" | "do" | "learn";
     /** Format: extensions.geography(Point,4326) */
     location?: string;
     /** Format: text */
@@ -228,6 +231,8 @@ export interface definitions {
     approved?: boolean;
     /** Format: text */
     channel?: string;
+    /** Format: jsonb */
+    metascraper?: string;
   };
 }
 
@@ -296,6 +301,8 @@ export interface parameters {
   "rowFilter.recommendations.approved": string;
   /** Format: text */
   "rowFilter.recommendations.channel": string;
+  /** Format: jsonb */
+  "rowFilter.recommendations.metascraper": string;
 }
 
 export interface operations {}
