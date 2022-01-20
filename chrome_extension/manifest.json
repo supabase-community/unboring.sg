@@ -1,5 +1,5 @@
 {
-  "manifest_version": 2,
+  "manifest_version": 3,
   "name": "unboring.sg",
   "version": "1.0.0",
   "description": "Discover unboring things to eat, do, and learn in Singapore.",
@@ -7,9 +7,14 @@
   "chrome_url_overrides": {
     "newtab": "index.html"
   },
-  "permissions": ["storage", "https://unboring-sg.vercel.app/"],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["storage", "activeTab"],
+  "host_permissions": ["https://unboring-sg.vercel.app/*"],
   "icons": {
-    "16": "images/UnboringSG.png",
-    "128": "images/UnboringSG.png"
+    "16": "images/icon16.png",
+    "48": "images/icon48.png",
+    "128": "images/icon128.png"
   }
 }
