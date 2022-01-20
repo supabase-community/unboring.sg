@@ -33,7 +33,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     image_url:
       metadata.image ?? metadata.logo ?? "https://via.placeholder.com/400x1",
     source: metadata.publisher,
-    metascraper: metadata,
+    metadata,
   };
   if (channel) row.channel = channel as string;
   if (["eat", "do", "learn"].includes(category as string)) {

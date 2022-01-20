@@ -31,7 +31,7 @@ export interface paths {
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
           channel?: parameters["rowFilter.recommendations.channel"];
-          metascraper?: parameters["rowFilter.recommendations.metascraper"];
+          metadata?: parameters["rowFilter.recommendations.metadata"];
           /** Filtering Columns */
           select?: parameters["select"];
           /** Ordering */
@@ -97,7 +97,7 @@ export interface paths {
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
           channel?: parameters["rowFilter.recommendations.channel"];
-          metascraper?: parameters["rowFilter.recommendations.metascraper"];
+          metadata?: parameters["rowFilter.recommendations.metadata"];
         };
         header: {
           /** Preference */
@@ -127,7 +127,7 @@ export interface paths {
           expiration_date?: parameters["rowFilter.recommendations.expiration_date"];
           approved?: parameters["rowFilter.recommendations.approved"];
           channel?: parameters["rowFilter.recommendations.channel"];
-          metascraper?: parameters["rowFilter.recommendations.metascraper"];
+          metadata?: parameters["rowFilter.recommendations.metadata"];
         };
         body: {
           /** recommendations */
@@ -232,7 +232,7 @@ export interface definitions {
     /** Format: text */
     channel?: string;
     /** Format: jsonb */
-    metascraper?: string;
+    metadata?: string;
   };
 }
 
@@ -302,7 +302,7 @@ export interface parameters {
   /** Format: text */
   "rowFilter.recommendations.channel": string;
   /** Format: jsonb */
-  "rowFilter.recommendations.metascraper": string;
+  "rowFilter.recommendations.metadata": string;
 }
 
 export interface operations {}

@@ -19,7 +19,9 @@ create table recommendations (
   clicks bigint default 0,
   downvotes bigint default 0,
   expiration_date timestamp with time zone,
-  approved boolean default false
+  approved boolean default false,
+  channel text,
+  metadata jsonb
 )
 /**
 * Enable Row Level Security
