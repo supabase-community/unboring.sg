@@ -56,6 +56,7 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
                 .answer.split(" ")[0]
                 .toLowerCase(),
               channel: "formsg",
+              metadata: submission,
             },
           ]);
         if (error) {
