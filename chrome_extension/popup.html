@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!-- Google Fonts -->
+    <meta charset="UTF-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        height: 310px;
+        width: 400px;
+        padding: 16px;
+        text-align: center;
+      }
+
+      * {
+        font-family: 'Inter', sans-serif;
+        line-height: 1.5;
+      }
+
+      .button-group {
+        display: flex;
+        justify-content: space-around;
+      }
+
+      .button {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100px;
+        width: 100px;
+        border-radius: 10px;
+        border: 1px solid #dddddd;
+        line-height: 1.5;
+        font-size: 20px;
+        font-weight: 600;
+        color: #276ef1;
+      }
+
+      .button.selected {
+        background-color: #276ef1;
+        color: #ffffff;
+      }
+
+      #submit {
+        border-radius: 20px;
+        width: fit-content;
+        max-width: 150px;
+        padding: 0 20px;
+        height: 40px;
+        font-size: 16px;
+        font-weight: 500;
+        background: #f4323b;
+        opacity: 0.8;
+        color: white;
+        align-items: center;
+        justify-content: center;
+        margin: auto;
+        display: none;
+        cursor: pointer;
+      }
+
+      #submit.disabled {
+        pointer-events: none;
+      }
+      /* #f98b90 */
+    </style>
+  </head>
+  <body>
+    <img src="./images/main-logo.png" height="60px" />
+    <h2>Share this site as:</h2>
+    <div class="button-group">
+      <div class="button" id="eat">🍕<br />EAT</div>
+      <div class="button" id="do">🎣<br />DO</div>
+      <div class="button" id="learn">📖<br />LEARN</div>
+    </div>
+    <br />
+    <br />
+    <div id="submit">Share 👍</div>
+    <script src="./vendor/confetti.min.js"></script>
+    <script src="./popup.js"></script>
+  </body>
+</html>
