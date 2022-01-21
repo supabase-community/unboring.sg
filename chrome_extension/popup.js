@@ -10,7 +10,6 @@ allButtons.forEach((button) => {
     button.classList.add('selected')
     category = button.id
     shareButton.style.display = 'flex'
-    explode()
   }
 })
 
