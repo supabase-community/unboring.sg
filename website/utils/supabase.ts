@@ -31,6 +31,24 @@ export const getRecommendations = async (
   return data || [];
 };
 
+export const getUnapprovedRecommendations = async (): Promise<
+  definitions["recommendations"][]
+> => {
+  const { data, error } = await supabaseClient
+    .from<definitions["recommendations"]>("recommendations")
+    .select("*")
+    .eq("approved", false)
+    .limit(10)
+    .order("id", { ascending: true });
+
+  if (error) {
+    console.log(error.message);
+    throw error;
+  }
+
+  return data || [];
+};
+
 export const localStorageParser = {
   setItem: (key: string, data: definitions["recommendations"][]): void => {
     window.localStorage.setItem(key, JSON.stringify(data));
