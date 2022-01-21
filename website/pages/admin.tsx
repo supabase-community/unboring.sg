@@ -13,6 +13,7 @@ import {
   HStack,
   Radio,
   Checkbox,
+  Spacer,
 } from "@chakra-ui/react";
 import { Link, Button } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
@@ -64,6 +65,16 @@ const Admin = () => {
     })();
   }, []);
 
+  const nextRec = () => {
+    if (recs.length) {
+      const recsClone = [...recs];
+      setCurrentRec(recsClone.shift());
+      setRecs(recsClone);
+    } else {
+      loadRecs();
+    }
+  };
+
   // Handle saving
   const handleSaving = async () => {
     setLoading(true);
@@ -77,17 +88,27 @@ const Admin = () => {
     if (error) alert(error.message);
     setCurrentRec(null);
     setLoading(false);
-    if (recs.length) {
-      const recsClone = [...recs];
-      setCurrentRec(recsClone.shift());
-      setRecs(recsClone);
-    } else {
-      loadRecs();
-    }
+    nextRec();
+  };
+
+  // Handle deleting
+  const handleDeleting = async () => {
+    setLoading(true);
+    const updatedRec = currentRec;
+    console.log(updatedRec);
+    const { data, error } = await supabaseClient
+      .from<definitions["recommendations"]>("recommendations")
+      .delete()
+      .eq("id", updatedRec.id);
+    console.log(data, error);
+    if (error) alert(error.message);
+    setCurrentRec(null);
+    setLoading(false);
+    nextRec();
   };
 
   return (
-    <SimpleGrid columns={2} spacing={5}>
+    <SimpleGrid columns={2}>
       {/* Preview ifram pane */}
       {currentRec ? (
         <>
@@ -101,7 +122,7 @@ const Admin = () => {
           </Box>
           {/* Form edit pane */}
 
-          <Box height="100vh">
+          <Box height="100vh" p={5}>
             <Heading as="h2" size="sm" pb={2} isTruncated>
               Channel: {currentRec.channel}
             </Heading>
@@ -200,16 +221,38 @@ const Admin = () => {
                 APPROVED
               </Checkbox>
             </FormControl>
-            {/* Submit button */}
-            <Button
-              isLoading={loading}
-              loadingText="Saving"
-              colorScheme="primary"
-              variant="outline"
-              onClick={handleSaving}
-            >
-              Save
-            </Button>
+            <Flex position="absolute" width="250px" bottom={5}>
+              {/* Submit button */}
+              <Button
+                isLoading={loading}
+                loadingText="Saving"
+                colorScheme="primary"
+                variant="outline"
+                onClick={handleSaving}
+              >
+                Save
+              </Button>
+              <Spacer />
+              {/* Delete button */}
+              <Button
+                isLoading={loading}
+                colorScheme="primary"
+                variant="outline"
+                onClick={handleDeleting}
+              >
+                Delete
+              </Button>
+              <Spacer />
+              {/* Skip button */}
+              <Button
+                isLoading={loading}
+                colorScheme="primary"
+                variant="outline"
+                onClick={nextRec}
+              >
+                Skip
+              </Button>
+            </Flex>
           </Box>
         </>
       ) : empty ? (
