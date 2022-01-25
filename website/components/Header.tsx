@@ -31,7 +31,7 @@ export const Header = () => {
       <Center>
         <Image maxW='24rem' src='UnboringSG.png' alt='UnboringSG logo' />
       </Center>
-      <Flex flexDir={'row'} justifyContent={'flex-end'} mr='3rem'>
+      <Flex flexDir={'row'} justifyContent={'flex-end'}>
         <Link href='https://go.gov.sg/unboringsg' target={'_blank'}>
           <Button>Add to the list</Button>
         </Link>
