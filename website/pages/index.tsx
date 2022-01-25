@@ -1,7 +1,6 @@
 import { SimpleGrid, Image, useColorMode, Flex } from "@chakra-ui/react";
 
 import { Screen } from "../components/Screen";
-import { DarkModeSwitch } from "../components/DarkModeSwitch";
 import { Tile } from "../components/Tile";
 
 const Index = () => {
@@ -9,7 +8,6 @@ const Index = () => {
 
   return (
     <Screen minH="100vh" p={5}>
-      <DarkModeSwitch />
       <Image
         htmlWidth="20%"
         position="fixed"
