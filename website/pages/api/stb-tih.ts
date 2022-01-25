@@ -34,7 +34,7 @@ const generateUrl = ({
   keyword: string;
   nextToken?: string;
 }) => {
-  let url = `https://tih-api.stb.gov.sg/content/v1/search/all?dataset=${dataset}&language=en&apikey=${process.env.STB_TIH_SECRET_KEY}`;
+  let url = `https://tih-api.stb.gov.sg/content/v1/search/all?dataset=${dataset}&language=en&apikey=${process.env.NEXT_PUBLIC_STB_TIH_API_KEY}`;
   if (keyword) url += `&keyword=${keyword}`;
   if (nextToken) url += `&nextToken=${nextToken}`;
   return url;

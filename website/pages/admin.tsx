@@ -118,6 +118,21 @@ const Admin = () => {
                 {currentRec.title}
               </Heading>
             </Link>
+            {/* URL */}
+            <FormControl isDisabled={loading}>
+              <Input
+                id="url"
+                type="text"
+                placeholder="No value provided. Need to search!"
+                value={currentRec.url}
+                onChange={(e) =>
+                  setCurrentRec({
+                    ...currentRec,
+                    url: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
             <iframe width="100%" height="95%" src={currentRec.url} />
           </Box>
           {/* Form edit pane */}

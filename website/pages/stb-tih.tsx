@@ -95,6 +95,24 @@ const StbTih = () => {
     }
   };
 
+  const fetchMedia = async () => {
+    let image_url = "https://via.placeholder.com/400x1";
+    if (currentRec.images[0].url) image_url = currentRec.images[0].url;
+    else if (currentRec.images[0].uuid) {
+      const image_uuid = currentRec.images[0].uuid;
+      const {
+        data: { url },
+      } = await fetch(
+        `https://tih-api.stb.gov.sg/media/v1/media/uuid/${image_uuid}?apikey=${process.env.NEXT_PUBLIC_STB_TIH_API_KEY}`
+      ).then((r) => r.json());
+      image_url = `${url}?apikey=${process.env.NEXT_PUBLIC_STB_TIH_API_KEY}`;
+    }
+    setCurrentRec({
+      ...currentRec,
+      image_url,
+    });
+  };
+
   useEffect(() => {
     if (
       currentRec?.officialWebsite &&
@@ -104,6 +122,14 @@ const StbTih = () => {
         ...currentRec,
         officialWebsite: `https://${currentRec.officialWebsite}`,
       });
+    }
+    if (
+      currentRec &&
+      !currentRec?.image_url &&
+      currentRec?.images &&
+      currentRec?.images.length
+    ) {
+      fetchMedia();
     }
   }, [currentRec]);
 
@@ -116,11 +142,18 @@ const StbTih = () => {
       setLoading(false);
       return nextRec();
     }
-    const { row, error } = await fetch(
-      `/api/metascraper?url=${currentRec.officialWebsite}&category=${currentRec.category}&title=${currentRec.name}&description=${currentRec.description}&cost=${currentRec.cost}&channel=stb_tih&doNotSave=true`
-    ).then((r) => r.json());
-    if (error) return alert(error.message);
-    row.approved = true;
+    const row: any = {
+      approved: true,
+      source: currentRec.source,
+      url: currentRec.officialWebsite,
+      category: currentRec.category,
+      title: currentRec.name,
+      description: currentRec.description,
+      cost: currentRec.cost,
+      channel: "stb_tih",
+      image_url: currentRec.image_url,
+      metadata: currentRec,
+    };
     console.log(row);
     const { data, error: supaError } = await supabaseClient
       .from<definitions["recommendations"]>("recommendations")
@@ -175,6 +208,21 @@ const StbTih = () => {
                 {currentRec.name}
               </Heading>
             </Link>
+            {/* URL */}
+            <FormControl isDisabled={loading}>
+              <Input
+                id="url"
+                type="text"
+                placeholder="No value provided. Need to search!"
+                value={currentRec.officialWebsite}
+                onChange={(e) =>
+                  setCurrentRec({
+                    ...currentRec,
+                    officialWebsite: e.target.value,
+                  })
+                }
+              />
+            </FormControl>
             <iframe
               width="100%"
               height="95%"
