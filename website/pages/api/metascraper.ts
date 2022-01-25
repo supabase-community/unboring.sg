@@ -18,8 +18,19 @@ const supabaseAdmin = createClient(
   process.env.SUPABASE_SERVICE_ROLE_KEY || ""
 );
 
+const categories = ["eat", "do", "learn"];
+const cost_types = ["free", "paid"];
+
 const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
-  const { url: qUrl, channel, category } = req.query;
+  const {
+    url: qUrl,
+    channel,
+    category,
+    description,
+    title,
+    cost,
+    doNotSave,
+  } = req.query;
 
   const { body: html, url } = await got(qUrl);
   const metadata = await metascraper({ html, url });
@@ -27,8 +38,8 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
 
   // Write to Supabase
   const row: any = {
-    title: metadata.title,
-    description: metadata.description,
+    title: title ?? metadata.title,
+    description: description ?? metadata.description,
     url: qUrl as string,
     image_url:
       metadata.image ?? metadata.logo ?? "https://via.placeholder.com/400x1",
@@ -36,8 +47,15 @@ const webhookHandler = async (req: NextApiRequest, res: NextApiResponse) => {
     metadata,
   };
   if (channel) row.channel = channel as string;
-  if (["eat", "do", "learn"].includes(category as string)) {
+  if (categories.includes(category as string)) {
     row.category = category as string;
+  }
+  if (cost_types.includes(cost as string)) {
+    row.cost = cost as string;
+  }
+
+  if (doNotSave) {
+    return res.json({ metadata, row });
   }
 
   const { error } = await supabaseAdmin

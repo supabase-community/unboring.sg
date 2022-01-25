@@ -28,8 +28,9 @@ create table recommendations (
 */
 alter table recommendations enable row level security;
 CREATE POLICY "Enable public read access" ON public.recommendations FOR SELECT USING (true);
+CREATE POLICY "Enable insert for users based on email" ON public.recommendations FOR INSERT WITH CHECK ((email() = 'admin@test.sg'::text));
 CREATE POLICY "Enable update for users based on email" ON public.recommendations FOR UPDATE USING (auth.email() = 'admin@test.sg') WITH CHECK (auth.email() = 'admin@test.sg');
-CREATE POLICY "Enable delete for users based on user_id" ON public.recommendations FOR DELETE USING (auth.email() = 'admin@test.sg');
+CREATE POLICY "Enable delete for users based on email" ON public.recommendations FOR DELETE USING (auth.email() = 'admin@test.sg');
 
 /**
 * INCREMENT HELPER FUNCTIONS
