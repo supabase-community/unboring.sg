@@ -14,36 +14,31 @@ import {
   Radio,
   Checkbox,
   Spacer,
+  Stack,
+  Select,
 } from "@chakra-ui/react";
 import { Link, Button } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { definitions } from "../types/supabase";
-import {
-  getUnapprovedRecommendations,
-  supabaseClient,
-} from "../utils/supabase";
+import { supabaseClient } from "../utils/supabase";
 
-const Admin = () => {
+const StbTih = () => {
   const router = useRouter();
-  const [empty, setEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [recs, setRecs] = useState<definitions["recommendations"][]>([]);
-  const [currentRec, setCurrentRec] = useState<
-    definitions["recommendations"] | null
-  >(null);
+  const [tihMeta, setTihMeta] = useState(null);
+  const [dataset, setDataset] = useState("");
+  const [keyword, setKeyword] = useState("");
+  const [nextToken, setNextToken] = useState(null);
+  const [data, setData] = useState(null);
+  const [recs, setRecs] = useState([]);
+  const [currentRec, setCurrentRec] = useState(null);
 
-  // Load unapproved recommendations into state
-  const loadRecs = async () => {
-    const recs = await getUnapprovedRecommendations();
-    setCurrentRec(recs.shift());
-    setRecs(recs);
-    if (!recs.length) setEmpty(true);
-  };
+  // Login
   useEffect(() => {
     (async () => {
       if (supabaseClient.auth.user()) {
-        loadRecs();
+        loadDataSets();
       } else {
         // Log in
         let password = prompt("Admin password:");
@@ -56,7 +51,7 @@ const Admin = () => {
             alert(error.message);
             router.push("/");
           } else {
-            loadRecs();
+            loadDataSets();
           }
         } else {
           router.push("/");
@@ -65,47 +60,141 @@ const Admin = () => {
     })();
   }, []);
 
+  //Load datasets
+  const loadDataSets = async () => {
+    const res = await fetch("/api/stb-tih").then((res) => res.json());
+    setTihMeta(res);
+  };
+
+  // Load content from STB TIH
+  const loadRecs = async (url: string) => {
+    const data = await fetch(url).then((r) => r.json());
+    if (data) {
+      console.log(data);
+      setData(data);
+      const recs = data.data.results;
+      setCurrentRec(recs.shift());
+      setRecs(recs);
+    }
+  };
+
+  useEffect(() => {
+    let url = `/api/stb-tih?dataset=${dataset}`;
+    if (keyword) url += `&keyword=${keyword}`;
+    if (nextToken) url += `&nextToken=${nextToken}`;
+    if (dataset) loadRecs(url);
+  }, [dataset, keyword, nextToken]);
+
   const nextRec = () => {
     if (recs.length) {
       const recsClone = [...recs];
       setCurrentRec(recsClone.shift());
       setRecs(recsClone);
     } else {
-      loadRecs();
+      setNextToken(data.nextToken);
     }
   };
+
+  const fetchMedia = async () => {
+    let image_url = "https://via.placeholder.com/400x1";
+    if (currentRec.images[0].url) image_url = currentRec.images[0].url;
+    else if (currentRec.images[0].uuid) {
+      const image_uuid = currentRec.images[0].uuid;
+      const {
+        data: { url },
+      } = await fetch(
+        `https://tih-api.stb.gov.sg/media/v1/media/uuid/${image_uuid}?apikey=${process.env.NEXT_PUBLIC_STB_TIH_API_KEY}`
+      ).then((r) => r.json());
+      image_url = `${url}?apikey=${process.env.NEXT_PUBLIC_STB_TIH_API_KEY}`;
+    }
+    setCurrentRec({
+      ...currentRec,
+      image_url,
+    });
+  };
+
+  useEffect(() => {
+    if (
+      currentRec?.officialWebsite &&
+      !currentRec.officialWebsite.includes("http")
+    ) {
+      setCurrentRec({
+        ...currentRec,
+        officialWebsite: `https://${currentRec.officialWebsite}`,
+      });
+    }
+    if (
+      currentRec &&
+      !currentRec?.image_url &&
+      currentRec?.images &&
+      currentRec?.images.length
+    ) {
+      fetchMedia();
+    }
+  }, [currentRec]);
 
   // Handle saving
   const handleSaving = async () => {
     setLoading(true);
-    const updatedRec = currentRec;
-    console.log(updatedRec);
-    const { data, error } = await supabaseClient
+    if (!currentRec.officialWebsite) {
+      alert("No website found, skipping.");
+      setCurrentRec(null);
+      setLoading(false);
+      return nextRec();
+    }
+    const row: any = {
+      approved: true,
+      source: currentRec.source,
+      url: currentRec.officialWebsite,
+      category: currentRec.category,
+      title: currentRec.name,
+      description: currentRec.description,
+      cost: currentRec.cost,
+      channel: "stb_tih",
+      image_url: currentRec.image_url,
+      metadata: currentRec,
+    };
+    console.log(row);
+    const { data, error: supaError } = await supabaseClient
       .from<definitions["recommendations"]>("recommendations")
-      .update(updatedRec)
-      .eq("id", updatedRec.id);
-    console.log(data, error);
-    if (error) alert(error.message);
+      .insert(row);
+    if (supaError) alert(supaError.message);
+    console.log(data);
     setCurrentRec(null);
     setLoading(false);
     nextRec();
   };
 
-  // Handle deleting
-  const handleDeleting = async () => {
-    setLoading(true);
-    const updatedRec = currentRec;
-    console.log(updatedRec);
-    const { data, error } = await supabaseClient
-      .from<definitions["recommendations"]>("recommendations")
-      .delete()
-      .eq("id", updatedRec.id);
-    console.log(data, error);
-    if (error) alert(error.message);
-    setCurrentRec(null);
-    setLoading(false);
-    nextRec();
-  };
+  const DataSetSwitch = () => (
+    <Stack direction="row" spacing={4} align="center">
+      <Select
+        placeholder="Select dataset"
+        variant="filled"
+        onChange={(e) => setDataset(e.target.value)}
+        value={dataset}
+      >
+        {tihMeta.datasets.map((i) => (
+          <option key={i} value={i}>
+            {i}
+          </option>
+        ))}
+      </Select>
+      {dataset && tihMeta.keywords[dataset] && (
+        <Select
+          placeholder="Select keyword"
+          variant="filled"
+          onChange={(e) => setKeyword(e.target.value)}
+          value={keyword}
+        >
+          {tihMeta.keywords[dataset].map((i) => (
+            <option key={i} value={i}>
+              {i}
+            </option>
+          ))}
+        </Select>
+      )}
+    </Stack>
+  );
 
   return (
     <SimpleGrid columns={2}>
@@ -113,9 +202,10 @@ const Admin = () => {
       {currentRec ? (
         <>
           <Box height="100vh" p={5}>
-            <Link href={currentRec.url} isExternal>
+            <DataSetSwitch />
+            <Link href={currentRec.officialWebsite} isExternal>
               <Heading as="h1" size="sm" pb={2} isTruncated>
-                {currentRec.title}
+                {currentRec.name}
               </Heading>
             </Link>
             {/* URL */}
@@ -124,22 +214,26 @@ const Admin = () => {
                 id="url"
                 type="text"
                 placeholder="No value provided. Need to search!"
-                value={currentRec.url}
+                value={currentRec.officialWebsite}
                 onChange={(e) =>
                   setCurrentRec({
                     ...currentRec,
-                    url: e.target.value,
+                    officialWebsite: e.target.value,
                   })
                 }
               />
             </FormControl>
-            <iframe width="100%" height="95%" src={currentRec.url} />
+            <iframe
+              width="100%"
+              height="95%"
+              src={currentRec.officialWebsite}
+            />
           </Box>
           {/* Form edit pane */}
 
           <Box height="100vh" p={5}>
             <Heading as="h2" size="sm" pb={2} isTruncated>
-              Channel: {currentRec.channel}
+              Channel: {currentRec.source}
             </Heading>
             {/* Title */}
             <FormControl isDisabled={loading}>
@@ -147,9 +241,9 @@ const Admin = () => {
               <Input
                 id="title"
                 type="text"
-                value={currentRec.title}
+                value={currentRec.name}
                 onChange={(e) =>
-                  setCurrentRec({ ...currentRec, title: e.target.value })
+                  setCurrentRec({ ...currentRec, name: e.target.value })
                 }
               />
             </FormControl>
@@ -248,16 +342,6 @@ const Admin = () => {
                 Save
               </Button>
               <Spacer />
-              {/* Delete button */}
-              <Button
-                isLoading={loading}
-                colorScheme="primary"
-                variant="outline"
-                onClick={handleDeleting}
-              >
-                Delete
-              </Button>
-              <Spacer />
               {/* Skip button */}
               <Button
                 isLoading={loading}
@@ -270,8 +354,8 @@ const Admin = () => {
             </Flex>
           </Box>
         </>
-      ) : empty ? (
-        <Heading as="h1">Review queue empty 🥳</Heading>
+      ) : tihMeta?.datasets ? (
+        <DataSetSwitch />
       ) : (
         "Loading..."
       )}
@@ -279,4 +363,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default StbTih;
