@@ -44,6 +44,8 @@ export const Tile = ({ title }: { title: string }) => {
       <Box
         h='100%'
         backgroundColor={isLight ? 'gray.100' : 'white'}
+        border='1px solid'
+        borderColor='neutral.300'
         borderRadius={'1rem'}
         maxW='30rem'
         overflowY='scroll'
