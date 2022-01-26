@@ -16,6 +16,7 @@ import {
   Spacer,
   Stack,
   Select,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Link, Button } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
@@ -24,6 +25,7 @@ import { definitions } from "../types/supabase";
 import { supabaseClient } from "../utils/supabase";
 
 const StbTih = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [tihMeta, setTihMeta] = useState(null);
@@ -33,6 +35,11 @@ const StbTih = () => {
   const [data, setData] = useState(null);
   const [recs, setRecs] = useState([]);
   const [currentRec, setCurrentRec] = useState(null);
+
+  // Force light mode for admin pages TODO make better in future
+  useEffect(() => {
+    if (colorMode === "dark") toggleColorMode();
+  }, [colorMode]);
 
   // Login
   useEffect(() => {

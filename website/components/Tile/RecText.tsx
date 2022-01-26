@@ -10,8 +10,10 @@ export const RecText = ({ rec }: RecTextProps) => {
   const isLight = colorMode === "light";
   return (
     <Flex
-      opacity={0.4}
-      backgroundColor={isLight ? "gray.100" : "white"}
+      // backgroundColor={isLight ? "gray.100" : "white"}
+      background={
+        isLight ? "rgba(237, 242, 247, .8)" : "rgba(255, 255, 255, .8)"
+      }
       alignSelf="flex-end"
       flexDir={"column"}
       px="1.5rem"

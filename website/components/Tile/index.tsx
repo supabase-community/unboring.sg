@@ -15,7 +15,7 @@ import { useRecs } from "./useRecs";
 const sentenceCase = (s: string) => s[0] + s.slice(1).toLowerCase();
 
 export const Tile = ({ title }: { title: string }) => {
-  const { handleClick } = useRecs(title);
+  const { handleClick, currentRec, isLoading } = useRecs(title);
   const { colorMode } = useColorMode();
   const isLight = colorMode === "light";
   const isMobile = useBreakpointValue({ base: true, xs: true, md: false });
@@ -43,22 +43,12 @@ export const Tile = ({ title }: { title: string }) => {
       </HStack>
       <Rec
         title={title}
+        rec={currentRec}
+        isLoading={isLoading}
+        handleClick={handleClick}
         backgroundColor={isLight ? "gray.100" : "white"}
-        border="1px solid"
-        borderColor="neutral.300"
-        borderRadius={"1rem"}
+        borderTopRadius={"1rem"}
         maxW="30rem"
-        overflowY="scroll"
-        py="1rem"
-        __css={{
-          // Firefox only has these two css properties to customise scrollbar
-          scrollbarWidth: 0,
-          /* Scrollbar for Chrome, Safari, Opera and Microsoft Edge */
-          "&::-webkit-scrollbar": {
-            width: 0,
-            height: 0,
-          },
-        }}
       />
     </SimpleGrid>
   );

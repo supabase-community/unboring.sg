@@ -1,21 +1,15 @@
-import {
-  CSSObject,
-  Flex,
-  Image,
-  useBreakpointValue,
-  useColorMode,
-} from '@chakra-ui/react'
+import { Flex, Image, useColorMode } from "@chakra-ui/react";
 
 export const Footer = () => {
-  const { colorMode } = useColorMode()
+  const { colorMode } = useColorMode();
   return (
-    <Flex pb='2rem'>
+    <Flex pb="2rem">
       <Image
-        htmlWidth='150px'
+        htmlWidth="150px"
         src={`ogp_logo_${colorMode}.svg`}
-        alt='OGP Logo'
+        alt="OGP Logo"
       />
-      <Image htmlWidth='90px' src='stb_logo.svg' alt='STB Logo' pl={2} />
+      <Image htmlWidth="120px" src="stb_logo.svg" alt="STB Logo" pl={2} />
     </Flex>
-  )
-}
+  );
+};
