@@ -33,7 +33,7 @@ export const Tile = ({ title }: { title: string }) => {
               fontSize={isMobile ? '1.5rem' : '2rem'}
             />
           </Link>
-          <Link onClick={() => handleClick('increment_clicks')}>
+          <Link onClick={() => handleClick()}>
             <RepeatIcon
               color={isLight ? 'black' : 'white'}
               fontSize={isMobile ? '1.5rem' : '2rem'}
@@ -60,7 +60,7 @@ export const Tile = ({ title }: { title: string }) => {
           },
         }}
       >
-        <Rec isLoading={isLoading} rec={currentRec} />
+        <Rec isLoading={isLoading} rec={currentRec} handleClick={handleClick} />
       </Box>
     </SimpleGrid>
   )

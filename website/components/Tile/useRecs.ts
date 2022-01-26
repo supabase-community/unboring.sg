@@ -62,12 +62,15 @@ export const useRecs = (title: string) => {
       })
       if (error) console.log(error)
     }
-    // Remove & replace currentRec with new one
-    if (recs.length) {
-      handleNewRecs(recs)
+    // Don't move to next tile when clicking on external link
+    if (event !== 'increment_clicks') {
+      // Remove & replace currentRec with new one
+      if (recs.length) {
+        handleNewRecs(recs)
+      }
+      // If last item in array -> load more recs into local storage
+      else recsLoader()
     }
-    // If last item in array -> load more recs into local storage
-    else recsLoader()
   }
 
   return {

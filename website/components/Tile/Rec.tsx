@@ -12,11 +12,13 @@ import { LoadedRec } from './LoadedRec'
 interface RecProps {
   isLoading: boolean
   rec: definitions['recommendations'] | null
+  handleClick: (
+    event?: 'increment_clicks' | 'increment_downvotes',
+  ) => Promise<void>
 }
 
-export const Rec = ({ isLoading, rec }: RecProps) => {
+export const Rec = ({ isLoading, rec, handleClick }: RecProps) => {
   const { colorMode } = useColorMode()
-  const isLight = colorMode === 'light'
   const isMobile = useBreakpointValue({ base: true, xs: true, md: false })
 
   if (isLoading) {
@@ -25,7 +27,7 @@ export const Rec = ({ isLoading, rec }: RecProps) => {
   return (
     <Box h='100%'>
       {rec ? (
-        <LoadedRec rec={rec} />
+        <LoadedRec rec={rec} handleClick={handleClick} />
       ) : (
         <Center h='100%' mx={isMobile ? '2rem' : '4rem'} textAlign={'center'}>
           <Text textStyle='body-1' color='neutral.700'>
