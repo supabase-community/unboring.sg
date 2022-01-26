@@ -20,7 +20,7 @@ export const Rec = ({ isLoading, rec }: RecProps) => {
   const isMobile = useBreakpointValue({ base: true, xs: true, md: false })
 
   if (isLoading) {
-    return <Skeleton />
+    return <Skeleton h='100%' w='100%' />
   }
   return (
     <Box
@@ -28,7 +28,9 @@ export const Rec = ({ isLoading, rec }: RecProps) => {
       borderRadius={'1rem'}
       h='100%'
     >
-      {rec ? <LoadedRec rec={rec}/> : (
+      {rec ? (
+        <LoadedRec rec={rec} />
+      ) : (
         <Center h='100%' mx={isMobile ? '2rem' : '4rem'} textAlign={'center'}>
           <Text textStyle='body-1' color='neutral.700'>
             That's all for now, check back later!

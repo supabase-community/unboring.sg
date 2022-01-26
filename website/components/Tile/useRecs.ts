@@ -13,15 +13,18 @@ export const useRecs = (title: string) => {
   const [currentRec, setCurrentRec] = useState<
     definitions['recommendations'] | null
   >(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleNewRecs = (recs: definitions['recommendations'][]) => {
     const [first, ...rest] = recs
     setCurrentRec(first)
     setRecs(rest)
     localStorageParser.setItem(`unboringRecs-${title}`, rest)
+    setIsLoading(false)
   }
 
   const recsLoader = async () => {
+    setIsLoading(true)
     const recommendations = await getRecommendations(
       title.toLowerCase(),
       currentRec
@@ -70,6 +73,6 @@ export const useRecs = (title: string) => {
   return {
     currentRec,
     handleClick,
-    isLoading: !recs,
+    isLoading,
   }
 }
