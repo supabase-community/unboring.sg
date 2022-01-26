@@ -1,6 +1,4 @@
-import { RepeatIcon } from "@chakra-ui/icons";
 import {
-  Box,
   SimpleGrid,
   HStack,
   Text,
@@ -8,7 +6,8 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 import { Link } from "@opengovsg/design-system-react";
-import { ThumbDownIcon } from "../ThumbDownIcon";
+import { StarIcon } from "@chakra-ui/icons";
+import { ShuffleIcon } from "../ShuffleIcon";
 import { Rec } from "./Rec";
 import { useRecs } from "./useRecs";
 
@@ -27,14 +26,14 @@ export const Tile = ({ title }: { title: string }) => {
           {sentenceCase(title)}
         </Text>
         <HStack spacing="1rem">
-          <Link onClick={() => handleClick("increment_downvotes")}>
-            <ThumbDownIcon
+          <Link onClick={() => handleClick("increment_likes")}>
+            <StarIcon
               color={isLight ? "black" : "white"}
               fontSize={isMobile ? "1.5rem" : "2rem"}
             />
           </Link>
           <Link onClick={() => handleClick()}>
-            <RepeatIcon
+            <ShuffleIcon
               color={isLight ? "black" : "white"}
               fontSize={isMobile ? "1.5rem" : "2rem"}
             />

@@ -54,7 +54,7 @@ export const useRecs = (title: string) => {
   }, [currentRec]);
 
   const handleClick = async (
-    event?: "increment_clicks" | "increment_downvotes"
+    event?: "increment_clicks" | "increment_likes"
   ) => {
     if (event && currentRec) {
       // Increment in DB

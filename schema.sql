@@ -17,7 +17,7 @@ create table recommendations (
   source text,
   cost cost_type,
   clicks bigint default 0,
-  downvotes bigint default 0,
+  likes bigint default 0,
   expiration_date timestamp with time zone,
   approved boolean default false,
   channel text,
@@ -45,11 +45,11 @@ $$
 $$ 
 language sql volatile;
 
-create function increment_downvotes (rec_id int) 
+create function increment_likes (rec_id int) 
 returns void as
 $$
   update recommendations 
-  set downvotes = downvotes + 1 -- increments is done here
+  set likes = likes + 1 -- increments is done here
   where id = rec_id
 $$ 
 language sql volatile;
