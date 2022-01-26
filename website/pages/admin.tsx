@@ -14,6 +14,7 @@ import {
   Radio,
   Checkbox,
   Spacer,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Link, Button } from "@opengovsg/design-system-react";
 import { useRouter } from "next/router";
@@ -25,6 +26,7 @@ import {
 } from "../utils/supabase";
 
 const Admin = () => {
+  const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
   const [empty, setEmpty] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -32,6 +34,11 @@ const Admin = () => {
   const [currentRec, setCurrentRec] = useState<
     definitions["recommendations"] | null
   >(null);
+
+  // Force light mode for admin pages TODO make better in future
+  useEffect(() => {
+    if (colorMode === "dark") toggleColorMode();
+  }, [colorMode]);
 
   // Load unapproved recommendations into state
   const loadRecs = async () => {
