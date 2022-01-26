@@ -23,11 +23,7 @@ export const Rec = ({ isLoading, rec }: RecProps) => {
     return <Skeleton h='100%' w='100%' />
   }
   return (
-    <Box
-      backgroundColor={isLight ? 'gray.100' : 'white'}
-      borderRadius={'1rem'}
-      h='100%'
-    >
+    <Box h='100%'>
       {rec ? (
         <LoadedRec rec={rec} />
       ) : (

@@ -21,8 +21,8 @@ export const Tile = ({ title }: { title: string }) => {
   const isMobile = useBreakpointValue({ base: true, xs: true, md: false })
 
   return (
-    <SimpleGrid columns={1} templateRows='1fr 5fr' spacingY='1rem' h='60vh'>
-      <HStack w='100%' maxW='22rem' justifyContent={'space-between'}>
+    <SimpleGrid columns={1} templateRows='1fr 5fr' h='60vh'>
+      <HStack w='100%' maxW='30rem' justifyContent={'space-between'}>
         <Text textStyle={isMobile ? 'display-2-mobile' : 'display-2'}>
           {sentenceCase(title)}
         </Text>
@@ -43,8 +43,11 @@ export const Tile = ({ title }: { title: string }) => {
       </HStack>
       <Box
         h='100%'
-        maxW='22rem'
+        backgroundColor={isLight ? 'gray.100' : 'white'}
+        borderRadius={'1rem'}
+        maxW='30rem'
         overflowY='scroll'
+        py='1rem'
         __css={{
           // Firefox only has these two css properties to customise scrollbar
           scrollbarWidth: 0,

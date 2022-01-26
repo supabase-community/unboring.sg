@@ -1,4 +1,4 @@
-import { Flex, Text, useColorMode } from '@chakra-ui/react'
+import { Flex, Text } from '@chakra-ui/react'
 import { definitions } from '../../types/supabase'
 
 interface RecTextProps {
@@ -6,11 +6,10 @@ interface RecTextProps {
 }
 
 export const RecText = ({ rec }: RecTextProps) => {
-  const { colorMode } = useColorMode()
   return (
-    <Flex flexDir={'column'} px='1.5rem' py='0.5rem'>
+    <Flex flexDir={'column'} px='1.5rem' pt='1rem' pb='2rem'>
       <Text textStyle='subhead-2' color='primary.500'>
-        {(rec.cost ?? '').toUpperCase()}
+        {(rec.cost ?? ' ').toUpperCase()}
       </Text>
       <Text textStyle='h2' color='neutral.800'>
         {rec.title}
