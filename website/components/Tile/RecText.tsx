@@ -10,7 +10,6 @@ export const RecText = ({ rec }: RecTextProps) => {
   const isLight = colorMode === "light";
   return (
     <Flex
-      // backgroundColor={isLight ? "gray.100" : "white"}
       background={
         isLight ? "rgba(237, 242, 247, .8)" : "rgba(255, 255, 255, .8)"
       }
