@@ -64,7 +64,7 @@ export const useRecs = (title: string) => {
     }
     // Remove & replace currentRec with new one
     if (recs.length) {
-      handleNewRecs(recs.slice(1))
+      handleNewRecs(recs)
     }
     // If last item in array -> load more recs into local storage
     else recsLoader()
