@@ -1,4 +1,5 @@
 import { useBreakpointValue, useColorMode, VStack } from '@chakra-ui/react'
+import { Footer } from '../components/Footer'
 import { Header } from '../components/Header'
 import { Tiles } from '../components/Tiles'
 
@@ -13,6 +14,7 @@ const Index = () => {
     >
       <Header />
       <Tiles />
+      <Footer />
     </VStack>
   )
 }
