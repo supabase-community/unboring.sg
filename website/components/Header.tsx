@@ -37,7 +37,11 @@ export const Header = () => {
         </Link>
       </Flex>
       <Center>
-        <Image maxW="24rem" src="UnboringSG.png" alt="UnboringSG logo" />
+        <Image
+          maxW={isMobile ? "12rem" : "24rem"}
+          src="UnboringSG.png"
+          alt="UnboringSG logo"
+        />
       </Center>
       {!isMobile && (
         <Flex flexDir={"row"} justifyContent={"flex-end"}>
