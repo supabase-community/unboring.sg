@@ -26,13 +26,16 @@ export const Tile = ({ title }: { title: string }) => {
           {sentenceCase(title)}
         </Text>
         <HStack spacing="1rem">
-          <Link onClick={() => handleClick("increment_likes")}>
+          <Link
+            title="Add to Bookmark."
+            onClick={() => handleClick("increment_likes")}
+          >
             <StarIcon
               color={isLight ? "black" : "white"}
               fontSize={isMobile ? "1.5rem" : "2rem"}
             />
           </Link>
-          <Link onClick={() => handleClick()}>
+          <Link title="See next recommendation." onClick={() => handleClick()}>
             <ShuffleIcon
               color={isLight ? "black" : "white"}
               fontSize={isMobile ? "1.5rem" : "2rem"}
@@ -47,6 +50,7 @@ export const Tile = ({ title }: { title: string }) => {
         handleClick={handleClick}
         backgroundColor={isLight ? "gray.100" : "white"}
         borderTopRadius={"1rem"}
+        w="100%"
         maxW="30rem"
       />
     </SimpleGrid>

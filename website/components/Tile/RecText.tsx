@@ -18,6 +18,7 @@ export const RecText = ({ rec }: RecTextProps) => {
       px="1.5rem"
       pt="1rem"
       pb="2rem"
+      w="100%"
     >
       <Text textStyle="subhead-2" color="primary.500">
         {(rec.cost ?? " ").toUpperCase()}

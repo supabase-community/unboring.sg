@@ -64,6 +64,15 @@ export const useRecs = (title: string) => {
       if (error) console.log(error);
     }
     // Don't move to next tile when clicking on external link
+    if (event === "increment_likes") {
+      // Add to bookmark
+      let bookmark = localStorageParser.getItem(
+        `unboringRecs-bookmark-${title}`
+      );
+      if (!bookmark) bookmark = [];
+      bookmark.push(currentRec);
+      localStorageParser.setItem(`unboringRecs-bookmark-${title}`, bookmark);
+    }
     if (event !== "increment_clicks") {
       // Remove & replace currentRec with new one
       if (recs.length) {
