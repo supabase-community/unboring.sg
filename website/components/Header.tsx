@@ -5,10 +5,8 @@ import {
   Heading,
   Image,
   SimpleGrid,
-  Spacer,
   useBreakpointValue,
   useColorMode,
-  VStack,
 } from "@chakra-ui/react";
 import { Button, Link } from "@opengovsg/design-system-react";
 
