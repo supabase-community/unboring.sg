@@ -16,7 +16,6 @@ export const useRecs = (title: string) => {
   const [isLoading, setIsLoading] = useState(true);
 
   const handleNewRecs = (recs: definitions["recommendations"][]) => {
-    console.log("in handleNewRecs", recs);
     const recommendations = [...recs];
     setCurrentRec(recommendations.shift());
     setRecs(recommendations);
